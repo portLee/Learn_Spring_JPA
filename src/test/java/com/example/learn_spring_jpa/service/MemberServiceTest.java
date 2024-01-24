@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@Transactional
+@Transactional // 같은 트랙잭션안에서 테스트 메서드 실행
 class MemberServiceTest {
     @Autowired
     private MemberService memberService;
@@ -21,14 +21,14 @@ class MemberServiceTest {
 
     @Test
     void join() throws Exception { // 회원가입 테스트
-        // Given
+        // Given - 테스트할 상황 설정
         Member member = new Member();
         member.setName("Kim");
 
-        // When
+        // When - 테스트 대상 실행
         Long saveId = memberService.join(member);
 
-        // Then
+        // Then - 결과 검증
         Assertions.assertEquals(member, memberRepository.findOne(saveId)); // 객체 비교
     }
 
