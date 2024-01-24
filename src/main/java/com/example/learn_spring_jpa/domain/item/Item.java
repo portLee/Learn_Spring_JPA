@@ -4,7 +4,9 @@ package com.example.learn_spring_jpa.domain.item;
 import com.example.learn_spring_jpa.domain.Category;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,14 +29,14 @@ public abstract class Item {
     private List<Category> categories = new ArrayList<>();
 
     /* 비즈니스 로직 */
-    public void addStock(int quantity) { // 재고 증가
+    public void addStock(int quantity) { // 재고 수 증가
         this.stockQuantity += quantity;
     }
 
-    public void removeStock(int quantity) { // 재고 감소
+    public void removeStock(int quantity) { // 재고 수 감소
         int restStock = this.stockQuantity - quantity;
         if (restStock < 0) { // 재고 부족한 경우
-            throw new NotEnoughStockException("need more stock");
+//            throw new NotEnoughStockException("need more stock");
         }
         this.stockQuantity = restStock;
     }
