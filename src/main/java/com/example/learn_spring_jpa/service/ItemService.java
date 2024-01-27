@@ -14,8 +14,9 @@ public class ItemService {
     @Autowired
     private ItemRepository itemRepository;
 
-    public void saveItem(Item item) {
+    public Long saveItem(Item item) {
         itemRepository.save(item);
+        return item.getId();
     }
 
     public List<Item> findItems() {
