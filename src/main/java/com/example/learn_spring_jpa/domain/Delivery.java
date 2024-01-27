@@ -8,7 +8,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 public class Delivery {
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "DELIVERY_ID")
     private Long id;
 
@@ -20,4 +21,8 @@ public class Delivery {
 
     @Enumerated(EnumType.STRING) // 열거형(Enum) 매핑, 문자열로 저장
     private DeliveryStatus status;
+
+    public Delivery(Address address) {
+        this.address = address;
+    }
 }

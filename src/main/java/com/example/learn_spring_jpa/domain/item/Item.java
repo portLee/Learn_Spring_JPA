@@ -2,11 +2,9 @@ package com.example.learn_spring_jpa.domain.item;
 
 
 import com.example.learn_spring_jpa.domain.Category;
+import com.example.learn_spring_jpa.exception.NotEnoughStockException;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +15,8 @@ import java.util.List;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE) // 단일 테이블 전략 사용
 @DiscriminatorColumn(name = "DTYPE") // 하위 엔티티 식별 컬럼 지정
 public abstract class Item {
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ITEM_ID")
     private Long id;
 
@@ -25,6 +24,7 @@ public abstract class Item {
     private int price;
     private int stockQuantity; // 재고 수
 
+    @ToString.Exclude
     @ManyToMany(mappedBy = "items") // 다대다 연관관계 명시, Category 엔티티의 items 필드를 가리킴
     private List<Category> categories = new ArrayList<>();
 
@@ -36,7 +36,7 @@ public abstract class Item {
     public void removeStock(int quantity) { // 재고 수 감소
         int restStock = this.stockQuantity - quantity;
         if (restStock < 0) { // 재고 부족한 경우
-//            throw new NotEnoughStockException("need more stock");
+            throw new NotEnoughStockException("need more stock");
         }
         this.stockQuantity = restStock;
     }

@@ -2,8 +2,7 @@ package com.example.learn_spring_jpa.service;
 
 import com.example.learn_spring_jpa.domain.item.Movie;
 import com.example.learn_spring_jpa.repository.ItemRepository;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,9 +18,6 @@ class ItemServiceTest {
     @Autowired
     private ItemRepository itemRepository;
 
-    @PersistenceContext
-    EntityManager entityManager;
-
     @Test
     void saveItem() {
 
@@ -32,15 +28,9 @@ class ItemServiceTest {
 
         // When
         itemService.saveItem(movie);
-        entityManager.flush();
-        entityManager.clear();
-        movie.setActor("배우 수정");
-        itemService.saveItem(movie);
-
-
 
         // Then
-//        Assertions.assertEquals(movie, itemRepository.findOne(movie.getId()));
+        Assertions.assertEquals(movie, itemRepository.findOne(movie.getId()));
     }
     
 }
